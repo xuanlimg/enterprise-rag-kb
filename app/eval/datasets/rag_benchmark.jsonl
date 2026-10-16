@@ -1,0 +1,10 @@
+{"question":"RAG 系统中为什么要使用混合检索？","expected_answer":"向量检索擅长语义相似，关键词检索擅长精确匹配，两者通过 RRF 融合通常比单路召回更稳定。","relevant_keywords":["向量检索","关键词检索","RRF"]}
+{"question":"文档切块大小应该如何选择？","expected_answer":"切块太小会丢失上下文，太大会引入噪声。常见起点是 400 到 600 Token，重叠 50 到 100 Token，并结合标题和段落结构。","relevant_keywords":["400","600","Token","重叠"]}
+{"question":"如何减少 RAG 的幻觉？","expected_answer":"只允许模型根据检索资料回答，资料不足时拒答，返回引用来源，并用评测集做回归测试。","relevant_keywords":["引用来源","资料不足","评测"]}
+{"question":"这个项目支持哪些文档格式？","expected_answer":"当前支持 PDF、Word、Excel、Markdown 和 TXT。","relevant_keywords":["PDF","Word","Excel","Markdown"]}
+{"question":"这个项目怎么启动数据库？","expected_answer":"使用 docker compose up -d db 启动 PostgreSQL 和 pgvector。","relevant_keywords":["docker compose","db"]}
+{"question":"为什么默认使用 fake 和 echo 模式？","expected_answer":"为了在没有 API Key 和网络的情况下也能启动并跑通流程。","relevant_keywords":["API Key","开发","测试"]}
+{"question":"RAG 评测通常看哪些指标？","expected_answer":"检索侧看 Recall@K 和 MRR，生成侧看答案正确率和引用准确率，工程侧看延迟、成本和失败率。","relevant_keywords":["Recall","MRR","延迟","成本"]}
+{"question":"向量检索和关键词检索各有什么作用？","expected_answer":"向量检索负责语义相似，关键词检索负责精确匹配，两者通过融合互补。","relevant_keywords":["语义","精确","融合"]}
+{"question":"这个项目如何保存引用来源？","expected_answer":"回答中的编号对应检索结果，引用信息写入 message_citations 表。","relevant_keywords":["message_citations","引用"]}
+{"question":"SSE 流式输出是怎么实现的？","expected_answer":"RAG 流程依次产生 citations、token 和 done 事件，服务端通过 text/event-stream 返回。","relevant_keywords":["citations","token","done"]}

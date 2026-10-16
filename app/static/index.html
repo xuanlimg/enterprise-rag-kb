@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enterprise RAG KB</title>
+  <link rel="stylesheet" href="/static/styles.css?v=14">
+</head>
+<body>
+  <div id="login-screen" class="login-screen">
+    <section class="card auth-card" id="auth-card">
+      <h2>账号</h2>
+      <div class="auth-tabs">
+        <button id="login-tab" class="tab active">登录</button>
+        <button id="register-tab" class="tab">注册</button>
+      </div>
+      <label>邮箱<input id="email" type="email" placeholder="you@example.com"></label>
+      <label>密码<input id="password" type="password" placeholder="至少 6 位"></label>
+      <label id="tenant-field" class="hidden">租户名（注册可选）<input id="tenant-name" type="text" placeholder="留空则加入默认空间"></label>
+      <div class="row">
+        <button id="login-btn">登录</button>
+        <button id="register-btn" class="secondary hidden">注册</button>
+      </div>
+      <p id="auth-status" class="status"></p>
+    </section>
+  </div>
+
+  <header id="topbar" class="topbar hidden">
+    <div class="brand">
+      <span class="logo">R</span>
+      <div>
+        <strong>Enterprise RAG KB</strong>
+        <small>企业知识库 RAG 控制台</small>
+      </div>
+    </div>
+    <div class="topbar-status">
+      <span id="db-status" class="badge">数据库检测中...</span>
+      <span id="provider-status" class="badge">模型检测中...</span>
+      <span id="user-info" class="user-info"></span>
+      <button id="logout-btn" class="mini secondary hidden">退出登录</button>
+      <a class="docs-link" href="/docs" target="_blank" rel="noreferrer">Swagger</a>
+    </div>
+  </header>
+
+  <main id="app-layout" class="layout hidden">
+    <section class="card">
+      <h2>文档管理</h2>
+      <div id="drop-zone" class="drop-zone">
+        <input id="file-input" type="file" accept=".pdf,.docx,.xlsx,.xlsm,.md,.markdown,.txt">
+        <p>拖拽文件到这里，或点击选择文件</p>
+      </div>
+      <div class="row">
+        <button id="upload-btn">上传并摄取</button>
+        <button id="refresh-btn" class="secondary">刷新列表</button>
+        <button id="reingest-all-btn" class="secondary">全部重新摄取</button>
+      </div>
+      <div class="row">
+        <input id="doc-search" type="search" placeholder="搜索文件名">
+        <button id="doc-search-btn" class="secondary">搜索</button>
+      </div>
+      <div class="row bulk-bar">
+        <label class="checkbox-label"><input id="doc-select-all" type="checkbox"> 全选本页</label>
+        <button id="doc-bulk-delete-btn" class="secondary">批量删除</button>
+      </div>
+      <ul id="documents" class="document-list"></ul>
+      <div class="row pager">
+        <button id="doc-prev-btn" class="secondary">上一页</button>
+        <span id="doc-page-info" class="muted"></span>
+        <button id="doc-next-btn" class="secondary">下一页</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>历史会话</h2>
+      <div class="row">
+        <button id="history-btn" class="secondary">刷新历史</button>
+      </div>
+      <div class="row">
+        <input id="conv-search" type="search" placeholder="搜索会话标题">
+        <button id="conv-search-btn" class="secondary">搜索</button>
+      </div>
+      <div class="row bulk-bar">
+        <label class="checkbox-label"><input id="conv-select-all" type="checkbox"> 全选本页</label>
+        <button id="conv-bulk-delete-btn" class="secondary">批量删除</button>
+      </div>
+      <ul id="conversations" class="document-list"></ul>
+      <div class="row pager">
+        <button id="conv-prev-btn" class="secondary">上一页</button>
+        <span id="conv-page-info" class="muted"></span>
+        <button id="conv-next-btn" class="secondary">下一页</button>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>RAG 问答（SSE 流式）</h2>
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input">
+        <textarea id="query" rows="3" placeholder="输入问题，Enter 发送，Shift+Enter 换行"></textarea>
+        <div class="row">
+          <button id="ask-btn">发送</button>
+          <button id="stop-btn" class="secondary hidden">停止生成</button>
+          <button id="new-chat-btn" class="secondary">新会话</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>评测</h2>
+      <p class="muted">运行内置 rag_benchmark 评测集，需要先摄入 README 或 docs 下的文档。</p>
+      <div class="row">
+        <button id="eval-btn">运行评测</button>
+        <button id="eval-history-btn" class="secondary">刷新记录</button>
+      </div>
+      <div id="eval-trend" class="trend-chart"></div>
+      <div id="eval-result" class="result"></div>
+      <div id="eval-history" class="result"></div>
+    </section>
+  </main>
+
+  <div id="citation-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>引用原文</h3>
+        <button id="citation-close" class="mini secondary">关闭</button>
+      </div>
+      <pre id="citation-content"></pre>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/static/vendor/marked.min.js"></script>
+  <script src="/static/vendor/purify.min.js"></script>
+  <script src="/static/app.js?v=14"></script>
+</body>
+</html>

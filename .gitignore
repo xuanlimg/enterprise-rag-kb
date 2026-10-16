@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 环境变量与密钥（不要提交）
+.env
+.env.local
+.env.*.local
+
+# 本地数据：上传的企业文档、向量模型缓存
+data/*
+!data/.gitkeep
+fastembed_cache/
+
+# 测试与静态检查缓存
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# 日志
+*.log
+
+# 编辑器与系统文件
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
